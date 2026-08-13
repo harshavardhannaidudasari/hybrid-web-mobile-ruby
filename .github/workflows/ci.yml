@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  web-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Run web specs (headless Chrome)
+        run: bundle exec rake web
+        env:
+          HYBRID_WEB_HEADLESS: "true"
+        # Mobile specs need a running Appium server + device/emulator and are
+        # intentionally excluded from this job: bundle exec rake mobile

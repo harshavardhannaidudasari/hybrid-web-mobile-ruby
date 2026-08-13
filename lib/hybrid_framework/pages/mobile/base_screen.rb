@@ -10,6 +10,13 @@ module HybridFramework
           @driver = driver
         end
 
+        def find_all(locator)
+          wait.until do
+            elements = @driver.find_elements(*locator)
+            elements unless elements.empty?
+          end
+        end
+
         private
 
         def find(locator)

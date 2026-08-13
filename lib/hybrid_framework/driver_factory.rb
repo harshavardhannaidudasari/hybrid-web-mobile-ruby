@@ -43,7 +43,16 @@ module HybridFramework
           'appium:newCommandTimeout' => Config.get('mobile.new_command_timeout', 120)
         }
       )
-      core.start_driver
+      driver = core.start_driver
+      # appium:appPackage/appActivity alone don't reliably foreground a
+      # pre-installed system app like Settings on every UiAutomator2
+      # version - activate it explicitly so tests don't start on the home
+      # screen.
+      driver.execute_script(
+        'mobile: startActivity',
+        { intent: "#{Config.get('android.app_package')}/#{Config.get('android.app_activity')}" }
+      )
+      driver
     end
 
     def create_ios_driver

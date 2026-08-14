@@ -6,8 +6,9 @@ module HybridFramework
       class BaseScreen
         DEFAULT_TIMEOUT = 15
 
-        def initialize(driver)
+        def initialize(driver, timeout: self.class::DEFAULT_TIMEOUT)
           @driver = driver
+          @timeout = timeout
         end
 
         def find_all(locator)
@@ -41,7 +42,7 @@ module HybridFramework
 
         def wait
           Selenium::WebDriver::Wait.new(
-            timeout: DEFAULT_TIMEOUT,
+            timeout: @timeout,
             ignore: [Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError]
           )
         end

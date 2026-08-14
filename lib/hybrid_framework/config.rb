@@ -15,5 +15,15 @@ module HybridFramework
       end
       value.nil? ? fallback : value
     end
+
+    # Some external providers (e.g. BrowserStack) document their own plain
+    # env var names directly (BROWSERSTACK_USERNAME, etc). Check that exact
+    # name first, then fall back to the normal HYBRID_<KEY> / config.yml
+    # lookup via #get so the usual override convention still applies.
+    def self.get_with_env_alias(env_name, path, fallback = nil)
+      return ENV[env_name] if ENV.key?(env_name)
+
+      get(path, fallback)
+    end
   end
 end

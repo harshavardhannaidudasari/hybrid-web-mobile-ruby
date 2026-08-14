@@ -15,3 +15,15 @@ ios:
   device_name: iPhone 15
   platform_version: "17.5"
   bundle_id: com.apple.Preferences
+
+# BrowserStack App Automate (used by create_ios_driver instead of a local
+# Mac/simulator - see README "iOS (BrowserStack App Automate)"). Credentials
+# and the app id are intentionally NOT set here: they're read from
+# BROWSERSTACK_USERNAME / BROWSERSTACK_ACCESS_KEY / BROWSERSTACK_APP_ID (or
+# their HYBRID_BROWSERSTACK_* aliases) at runtime, never hardcoded.
+browserstack:
+  hub_url: https://hub-cloud.browserstack.com/wd/hub
+  device_name: iPhone 14
+  platform_version: "16"
+  project_name: Hybrid Web+Mobile Ruby
+  build_name: iOS BrowserStack

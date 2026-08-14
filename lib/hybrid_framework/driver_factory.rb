@@ -55,20 +55,32 @@ module HybridFramework
       driver
     end
 
+    # iOS runs against BrowserStack App Automate (a cloud real-device farm)
+    # rather than a local Mac/simulator, which this Windows machine can't
+    # provide. See README "iOS (BrowserStack App Automate)" for setup.
     def create_ios_driver
       core = Appium::Core.for(
-        appium_lib: { server_url: Config.get('mobile.appium_server_url') },
+        appium_lib: { server_url: browserstack_setting('BROWSERSTACK_HUB_URL', 'browserstack.hub_url') },
         caps: {
           platformName: 'iOS',
-          'appium:automationName' => 'XCUITest',
-          'appium:deviceName' => Config.get('ios.device_name'),
-          'appium:platformVersion' => Config.get('ios.platform_version'),
-          'appium:bundleId' => Config.get('ios.bundle_id'),
-          'appium:noReset' => true,
-          'appium:newCommandTimeout' => Config.get('mobile.new_command_timeout', 120)
+          'appium:deviceName' => Config.get('browserstack.device_name'),
+          'appium:platformVersion' => Config.get('browserstack.platform_version'),
+          'appium:app' => browserstack_setting('BROWSERSTACK_APP_ID', 'browserstack.app_id'),
+          'bstack:options' => {
+            userName: browserstack_setting('BROWSERSTACK_USERNAME', 'browserstack.username'),
+            accessKey: browserstack_setting('BROWSERSTACK_ACCESS_KEY', 'browserstack.access_key'),
+            projectName: Config.get('browserstack.project_name'),
+            buildName: Config.get('browserstack.build_name'),
+            sessionName: 'iOS BrowserStack sample app text flow',
+            debug: true
+          }
         }
       )
       core.start_driver
+    end
+
+    def browserstack_setting(env_name, config_path)
+      Config.get_with_env_alias(env_name, config_path)
     end
   end
 end

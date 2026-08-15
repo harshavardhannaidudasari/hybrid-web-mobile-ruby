@@ -1,5 +1,7 @@
 # Hybrid Web + Mobile Automation Framework (Ruby)
 
+[![CI](https://github.com/harshavardhannaidudasari/hybrid-web-mobile-ruby/actions/workflows/ci.yml/badge.svg)](https://github.com/harshavardhannaidudasari/hybrid-web-mobile-ruby/actions/workflows/ci.yml)
+
 A single RSpec framework that drives **both** browser (Selenium) and native
 mobile (Appium) tests through one `DriverFactory.create_driver(platform)`
 call. `appium_lib_core` builds its driver on top of the same
